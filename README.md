@@ -1,4 +1,4 @@
-Ansible-Git  [![Build Status](https://travis-ci.org/jpartain89/ansible-role-git.svg?branch=master)](https://travis-ci.org/jpartain89/ansible-role-git)
+Ansible-Git
 =========
 
 This installs git through Apt and then clones the repos of your choice.
