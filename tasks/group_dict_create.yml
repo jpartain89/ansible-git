@@ -1,0 +1,43 @@
+---
+
+- name: Create dictionary group_dict in group_vars/all/group_dict.yml
+  delegate_to: localhost
+  run_once: true
+  when: group_git_cloning is defined or group_dict_refresh | d(false) | boo
+  block:
+    - name: Create directory group_vars/all
+      ansible.builtin.file:
+        state: directory
+        path: "{{ group_vars_dir }}/all"
+        owner: "{{ ansible_user_id }}"
+        group: "{{ ansible_user_gid }}"
+        mode: '0775'
+
+    - name: Loop through the vars
+      ansible.builtin.include_vars:
+        dir: "{{ group_vars_dir }}/{{ item }}"
+        name: "groupvars_{{ item }}"
+      loop: "{{ group_git_cloning_all }}"
+
+    - name: Running debug
+      ansible.builtin.debug:
+        var: _group_dict
+      when: debug|d(false)|bool
+
+    - name: Write group_dict to group_vars/all/group_dict.yml
+      ansible.builtin.copy:
+        mode: '0644'
+        owner: "{{ ansible_user_id }}"
+        group: "{{ ansible_user_gid }}"
+        dest: "{{ group_vars_dir }}/all/group_dict.yml"
+        content: |
+          group_dict:
+            {{ _group_dict | to_nice_yaml(indent=2) | indent(2) }}
+
+    - name: Re-including the modified vars
+      ansible.builtin.include_vars:
+        file: "{{ group_vars_dir }}/all/group_dict.yml"
+
+- name: Set the variables
+  ansible.builtin.set_fact:
+    git_cloning: "{{ git_cloning }}"

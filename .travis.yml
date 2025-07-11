@@ -1,0 +1,22 @@
+language: c
+sudo: required
+dist: xenial
+
+before_install:
+- sudo apt-get update -qq
+- sudo apt-get install -qqy python-apt python python-pip
+- sudo -H pip install -U pip pyopenssl
+- sudo -H pip install --upgrade urllib3[secure]
+install:
+- sudo -H pip install --upgrade ansible
+- "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
+script:
+- ansible-playbook -i tests/inventory tests/test.yml --syntax-check
+- ansible-playbook -i tests/inventory tests/test.yml --connection=local
+- 'ansible-playbook -i tests/inventory tests/test.yml --connection=local |
+  grep -q ''changed=0.*failed=0'' && (echo ''Idempotence test: pass'' && exit 0) ||
+  (echo ''Idempotence test: fail'' && exit 1)'
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
+  slack:
+    secure: n1W+FtJRK8Wr5LvP88qHkeXxRhugnoV7gaYUys4E1Np/1icGUtLZiS6dfclruU0wA5MERKCOXL3PKSA605DWFVhRFlHu7yaf+8pyN9ZAEKrgx6AAHW1b7XJgSzjeQxfA0BKOMxsjNS3oEfamIL50DEy1GvgDfYMdktBGE9l4Y0xuMy3VDot8+HI5EYnE6nhe3EgcOaENv/BDADimnc9iPfJCZahIAmFVEfUCYap0B65exh4c3wxxWKor98LkqbG1C2MYsB76tHxwy3L35GNKIfJep7OpcfdduNimyLhdgb/u6T2qQH/OlfeZ4/Gz32N7o3RHwLh/PVUJJRwpDRGH+tNanJ5471dg+sWGjAXK3/U9NmSnYPK1cAbHwKKE9z+KA47OV45j4TdGC5sXIam1JzYGnUL8e7MsKBMzCIHbGqrNSdGbtfMnOXAtlJf5URQloc/lVMaN8VJ/qpNnzBTvWWfC2Mfiu0jH6CloQ516I+oJtim9FUAYZwlGDYrZ7gLJIN/yWlZ2FHPi3ROQ6NbPp9y4YYWYkDc8DD46204wOk5r0W1mQvUDwl8DVvsXG/2IRgxchg11M8TX3IDlUcDwYo1SH7TiTWwP8KRpd3elET9MFFbHl4Gtxt/UsNnYjFbVW75aK9se6uPdrp/sqin54L03ZRCjszNj15H173imxu8=

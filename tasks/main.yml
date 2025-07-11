@@ -32,6 +32,19 @@
     - "{{ git_dir }}"
   # become_user: "{{ ansible_user_id }}"
 
+- name: Create a template file for the grouped git repos
+  ansible.builtin.template:
+    src: group_dict_create.yml.j2
+    dest: "{{ group_vars_dir }}/all/group_dict.yml"
+    mode: '0644'
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_gid }}"
+  with_items:
+    - "{{ group_git_cloning }}"
+    - "{{ git_cloning }}"
+  when: group_git_cloning is defined or group_dict_refresh | d(false) | bool
+  register: _group_dict_create
+
 - name: Clone git repos
   ansible.builtin.git:
     repo: "{{ item.repo }}"
@@ -41,9 +54,7 @@
     recursive: true
   with_items:
     - "{{ git_cloning }}"
-    - "{{ git_device_cloning | default([]) }}"
     - "{{ group_git_cloning }}"
-    - "{{ all_group_git_cloning }}"
   register: _standard_git_cloned
   failed_when: false
   become_user: "{{ ansible_user_id }}"
