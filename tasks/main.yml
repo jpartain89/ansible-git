@@ -10,7 +10,7 @@
   when: ansible_os_family == "Debian"
 
 - name: Install Git | macOS
-  ansible.builtin.homebrew:
+  community.general.homebrew:
     state: present
     name: git
   when: ansible_os_family == "Darwin"
