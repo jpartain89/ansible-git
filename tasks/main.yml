@@ -1,29 +1,31 @@
 ---
 
-- name: Install Git | Linux
+- name: Git | main.yml | Linux - Install Git
   ansible.builtin.apt:
     name: "{{ git_apt_apps }}"
     state: latest
     update_cache: true
     cache_valid_time: 86400
+    only_upgrade: true
   become: true
   when: ansible_os_family == "Debian"
 
-- name: Install Git | macOS
+- name: Git | main.yml | macOS - Install Git
   community.general.homebrew:
     state: present
     name: git
   when: ansible_os_family == "Darwin"
 
-- name: Install Git | Fedora
+- name: Git | main.yml | Fedora/RedHat - Install Git
   ansible.builtin.dnf:
     name: "{{ git_dnf_apps }}"
     state: latest
     update_cache: true
+    update_only: true
   when: ansible_os_family == "RedHat"
   become: true
 
-- name: Confirm the Git Directory Exists
+- name: Git | main.yml | Confirm the Git Directory Exists
   ansible.builtin.file:
     path: "{{ item.path }}"
     mode: "0775"
@@ -32,7 +34,7 @@
     - "{{ git_dir }}"
   # become_user: "{{ ansible_user_id }}"
 
-- name: Clone git repos
+- name: Git | main.yml | Clone git repos # noqa: latest
   ansible.builtin.git:
     repo: "{{ item.repo }}"
     dest: "{{ item.dest }}"
