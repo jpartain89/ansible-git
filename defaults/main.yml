@@ -11,6 +11,7 @@ git_apt_apps:
   - git
   - git-core
   - git-man
+  - git-lfs
 
 git_dnf_apps:
   - git
