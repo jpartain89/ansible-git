@@ -41,9 +41,10 @@
     accept_hostkey: true
     recursive: true
   with_items:
-    - "{{ git_cloning }}"
-    - "{{ all_group_git_cloning }}"
-    - "{{ git_device_cloning }}"
+    - "{{ git_cloning | default([]) }}"
+    - "{{ all_group_git_cloning | default([]) }}"
+    - "{{ group_git_cloning | default([]) }}"
+    - "{{ git_device_cloning | default([]) }}"
   register: _standard_git_cloned
 
 - name: Debug Git Cloning
