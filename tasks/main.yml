@@ -8,12 +8,14 @@
     cache_valid_time: 86400
   become: true
   when: ansible_facts['os_family'] == "Debian"
+  tags: git-cloning
 
 - name: Git | main.yml | macOS - Install Git
   community.general.homebrew:
     state: present
     name: git
   when: ansible_facts['os_family'] == "Darwin"
+  tags: git-cloning
 
 - name: Git | main.yml | Fedora/RedHat - Install Git
   ansible.builtin.dnf:
@@ -23,15 +25,17 @@
     update_only: true
   when: ansible_facts['os_family'] == "RedHat"
   become: true
+  tags: git-cloning
 
 - name: Git | main.yml | Confirm the Git Directory Exists
   ansible.builtin.file:
-    path: "{{ item.path }}"
+    path: "{{ item }}"
     mode: "0775"
     state: directory
   with_items:
-    - "{{ git_dir }}"
+    - "{{ git_path }}"
   # become_user: "{{ ansible_facts['user_id'] }}"
+  tags: git-cloning
 
 - name: Git | main.yml | Clone git repos # noqa: latest
   ansible.builtin.git:
@@ -46,6 +50,7 @@
     - "{{ group_git_cloning | default([]) }}"
     - "{{ git_device_cloning | default([]) }}"
   register: _standard_git_cloned
+  tags: git-cloning
 
 - name: Debug Git Cloning
   ansible.builtin.debug:
