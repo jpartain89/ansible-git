@@ -1,10 +1,10 @@
-Ansible-Git
-=========
+# jpartain89.git
 
-This installs git through Apt and then clones the repos of your choice.
+## Purpose
 
-Role Variables
---------------
+Installs git through Apt and then clones the repos of your choice.
+
+## Role Variables
 
 The dictionary `git_dir`:
   - `path`: Currently set to `ansible_user_dir` or `$HOME` `/git` - `~/git`
@@ -16,8 +16,7 @@ The dictionary `git_dir`:
   - `repo`: The address of the git repo you want to clone from
   - `dest`: The destination you want the local clone to be at
 
-Example Playbook
-----------------
+## Example Playbook
 
 ```bash
   - name: Git
@@ -26,23 +25,20 @@ Example Playbook
       - jpartain89.ansible-git
 ```
 
-License
--------
+## License
 
 BSD
 
-Author Information
-------------------
+## Author Information
 
 JPartain89
 github.com/jpartain89
 
-Molecule tests
----------------
+## Molecule tests
 
 This role includes a minimal `molecule/default` scenario for smoke-testing the role.
 
-To run locally (from repo root):
+### To run locally:
 
 ```bash
 pipenv install --dev
