@@ -38,13 +38,18 @@ github.com/jpartain89
 
 This role includes a minimal `molecule/default` scenario for smoke-testing the role.
 
+### Prerequisites
+
+```bash
+pip install ansible 'molecule-plugins[docker]' pytest-testinfra
+ansible-galaxy collection install community.docker community.general
+```
+
 ### To run locally:
 
 ```bash
-pipenv install --dev
-pipenv shell
-cd personal_ansible_plays/roles/jpartain89.git
+cd ansible-git
 molecule test --scenario-name default
 ```
 
-The converge play is conservative by default and performs only safe, non-destructive checks. Inspect `molecule/default/converge.yml` to see which variables are set for testing.
+The converge play is conservative by default and performs only safe, non-destructive checks (git cloning is disabled). Inspect `molecule/default/converge.yml` to see which variables are set for testing.

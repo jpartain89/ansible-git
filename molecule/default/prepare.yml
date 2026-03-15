@@ -1,0 +1,10 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Git | Prepare | Install Python3 for Ansible module support
+      ansible.builtin.raw: >
+        apt-get update -qq &&
+        apt-get install -y -qq python3
+      changed_when: false
