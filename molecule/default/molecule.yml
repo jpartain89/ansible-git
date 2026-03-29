@@ -2,7 +2,7 @@
 dependency:
   name: galaxy
   options:
-    requirements-file: requirements.yml
+    requirements-file: '${MOLECULE_SCENARIO_DIRECTORY}/requirements.yml'
 driver:
   name: docker
 platforms:
@@ -11,6 +11,8 @@ platforms:
     pre_build_image: true
 provisioner:
   name: ansible
+  env:
+    ANSIBLE_ROLES_PATH: '${MOLECULE_PROJECT_DIRECTORY}/..'
   playbooks:
     prepare: prepare.yml
     destroy: destroy.yml
