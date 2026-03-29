@@ -141,7 +141,7 @@ Ask the user to confirm. Do not proceed until confirmed.
 
 Once the user confirms:
 
-1. **Create a branch**: Propose a tag based on today's date (e.g., `autoresearch/mar17`).
+1. **Create a branch**: Propose a tag based on today's date (e.g., `mar17`).
    Create the branch: `git checkout -b autoresearch/<tag>`.
 
 2. **Read in-scope files**: Read all files that are in scope to build full context of the current state.

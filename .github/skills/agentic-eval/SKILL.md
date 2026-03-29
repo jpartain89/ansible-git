@@ -37,6 +37,8 @@ Generate → Evaluate → Critique → Refine → Output
 Agent evaluates and improves its own output through self-critique.
 
 ```python
+import json
+
 def reflect_and_refine(task: str, criteria: list[str], max_iterations: int = 3) -> str:
     """Generate with reflection loop."""
     output = llm(f"Complete this task:\n{task}")
@@ -70,6 +72,8 @@ def reflect_and_refine(task: str, criteria: list[str], max_iterations: int = 3) 
 Separate generation and evaluation into distinct components for clearer responsibilities.
 
 ```python
+import json
+
 class EvaluatorOptimizer:
     def __init__(self, score_threshold: float = 0.8):
         self.score_threshold = score_threshold
@@ -141,6 +145,8 @@ def llm_judge(output_a: str, output_b: str, criteria: str) -> str:
 Score outputs against weighted dimensions.
 
 ```python
+import json
+
 RUBRIC = {
     "accuracy": {"weight": 0.4},
     "clarity": {"weight": 0.3},
