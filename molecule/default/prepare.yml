@@ -3,8 +3,8 @@
   hosts: all
   gather_facts: false
   tasks:
-    - name: Git | Prepare | Install Python3 for Ansible module support
+    - name: Git | Prepare | Install Python3 and sudo for Ansible module support
       ansible.builtin.raw: >
         apt-get update -qq &&
-        apt-get install -y -qq python3
+        apt-get install -y -qq python3 sudo
       changed_when: false
