@@ -41,8 +41,8 @@ This role includes a minimal `molecule/default` scenario for smoke-testing the r
 ### Prerequisites
 
 ```bash
-pip install ansible 'molecule-plugins[docker]' pytest-testinfra
-ansible-galaxy collection install community.docker community.general
+pip install -r requirements.txt
+ansible-galaxy collection install -r molecule/default/requirements.yml
 ```
 
 ### To run locally:
