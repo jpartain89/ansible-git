@@ -1,5 +1,11 @@
 ---
 - name: Converge
   hosts: all
-  roles:
-    - role: jpartain89.git
+  gather_facts: true
+  vars:
+    git_cloning: []
+    git_device_cloning: []
+  tasks:
+    - name: Git | Converge | Include the ansible-git role
+      ansible.builtin.include_role:
+        name: ansible-git

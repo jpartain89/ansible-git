@@ -1,16 +1,21 @@
 ---
 dependency:
   name: galaxy
+  options:
+    requirements-file: '${MOLECULE_SCENARIO_DIRECTORY}/requirements.yml'
 driver:
   name: docker
 platforms:
   - name: instance
-    image: debian:12
-    privileged: true
+    image: 'debian:12'
+    pre_build_image: true
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
+  env:
+    ANSIBLE_ROLES_PATH: '${MOLECULE_PROJECT_DIRECTORY}/..'
+  playbooks:
+    prepare: prepare.yml
+    destroy: destroy.yml
 verifier:
   name: testinfra
   directory: ../tests
